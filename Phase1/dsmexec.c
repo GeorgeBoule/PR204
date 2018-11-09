@@ -1,6 +1,7 @@
 #include "common_impl.h"
 
 /* variables globales */
+#define SIZE 64
 
 /* un tableau gerant les infos d'identification */
 /* des processus dsm */
@@ -28,17 +29,33 @@ int main(int argc, char *argv[])
   if (argc < 3){
     usage();
   } else {       
-     pid_t pid;
-     int num_procs = 0;
-     int i;
+    pid_t pid;
+    int num_procs = 0;
+    int i;
      
      /* Mise en place d'un traitant pour recuperer les fils zombies*/      
      /* XXX.sa_handler = sigchld_handler; */
      
      /* lecture du fichier de machines */
+    FILE *fd=fopen("machine_file","r");
+
      /* 1- on recupere le nombre de processus a lancer */
+    char line[SIZE];
+    while(1){
+    if(NULL == fgets(line,SIZE,fd)) break;
+      num_procs++;
+      memset(line,'\0',SIZE);
+    }
      /* 2- on recupere les noms des machines : le nom de */
-     /* la machine est un des elements d'identification */
+     /* la machine est un des elements d'identification 64/128 char c'est ok */
+      rewind(fd);
+    char machines[num_procs][SIZE];
+    for(int i=0;i<num_procs;i++){
+      fgets(machines[i],SIZE,fd);
+    }
+    for(int i=0;i<num_procs;i++){
+      printf("machine : %s",machines[i]);
+    }
      
      /* creation de la socket d'ecoute */
      /* + ecoute effective */ 
