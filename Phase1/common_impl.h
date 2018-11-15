@@ -18,14 +18,18 @@ struct dsm_proc_conn  {
    int rank;
    /* a completer */
 };
-typedef struct dsm_proc_conn dsm_proc_conn_t; 
+
+typedef struct dsm_proc_conn dsm_proc_conn_t;
 
 /* definition du type des infos */
 /* d'identification des processus dsm */
-struct dsm_proc {   
+struct dsm_proc {
   pid_t pid;
   dsm_proc_conn_t connect_info;
 };
 typedef struct dsm_proc dsm_proc_t;
 
-int creer_socket(int type, int *port_num);
+void init_addr(int* port, struct sockaddr_in* serv_addr);
+int creer_socket(int prop, int *port_num);
+int do_listen(int sock, int nb);
+int do_accept(int sock, struct sockaddr_in* serv_addr);
