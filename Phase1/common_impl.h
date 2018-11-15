@@ -33,3 +33,5 @@ void init_addr(int* port, struct sockaddr_in* serv_addr);
 int creer_socket(int prop, int *port_num);
 int do_listen(int sock, int nb);
 int do_accept(int sock, struct sockaddr_in* serv_addr);
+int do_read(int sock, char* buf);
+int do_write(int sock, char* buf);

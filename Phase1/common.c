@@ -87,6 +87,25 @@ int do_read(int sock_client, char* buf)
   return 0;
 }
 
+int do_write(int sock_client, char* buf)
+{
+
+  int to_send = sizeof(char)*strlen(buf) ;
+  int sent = 0;
+  do
+  {
+    if ( sent == -1 )
+    {
+      perror("send");
+      exit(EXIT_FAILURE);
+    }
+    else
+    {
+      sent += write (sock_client, buf + sent, to_send - sent); // Be sure of that all the message is sent
+    }
+  }while (sent != to_send);
+  return 0;
+}
 
 
 
